@@ -40,9 +40,18 @@ services:
     binds:
      - /var/lib/docker:/var/lib/docker
      - /lib/modules:/lib/modules
+     - /etc/docker/daemon.json:/etc/docker/daemon.json
 files:
-  - path: etc/docker/daemon.json
-    contents: '{"debug": true}'
+  - path: /etc/docker/daemon.json
+    #contents: '{"debug": true}'
+    contents: >
+      {
+        "hosts": [
+          "unix:///var/run/docker.sock",
+          "tcp://0.0.0.0:2375"
+        ],
+        "debug": true
+      }
 trust:
   org:
     - linuxkit
